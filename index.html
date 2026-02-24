@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>OmniDelta Widget</title>
+  <style>
+    body { margin:0; background:#0c0f14; color:#e2e8f0; font-family:system-ui; }
+    .wrap { padding:20px; }
+    .card { background:#141922; border-radius:14px; padding:20px; }
+    .ogri { font-size:40px; font-weight:900; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div>OmniDelta — OGRI Live</div>
+      <div class="ogri" id="ogri">—</div>
+      <div id="band">Loading…</div>
+      <div id="ts"></div>
+    </div>
+  </div>
+
+<script>
+  const API = "https://omnidelta-wix-backend.onrender.com";
+
+  async function load() {
+    try {
+      const r = await fetch(API + "/ogri/latest");
+      const d = await r.json();
+
+      document.getElementById("ogri").textContent = d.ogri;
+      document.getElementById("band").textContent = d.band;
+      document.getElementById("ts").textContent = d.timestamp;
+    } catch (e) {
+      document.getElementById("band").textContent = "Error loading data";
+    }
+  }
+
+  load();
+  setInterval(load, 30000);
+</script>
+</body>
+</html>
